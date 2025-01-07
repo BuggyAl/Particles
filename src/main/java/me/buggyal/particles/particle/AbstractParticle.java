@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -28,31 +29,31 @@ public abstract class AbstractParticle {
         this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID));
     }
 
-    protected AbstractParticle overrideParticleLimit(boolean overrideParticleLimit) {
+    public AbstractParticle overrideParticleLimit(boolean overrideParticleLimit) {
         this.overrideParticleLimit = overrideParticleLimit;
         return this;
     }
 
-    protected AbstractParticle alwaysShowParticle(boolean alwaysShowParticle) {
+    public AbstractParticle alwaysShowParticle(boolean alwaysShowParticle) {
         this.alwaysShowParticle = alwaysShowParticle;
         return this;
     }
 
-    protected AbstractParticle offset(float offsetX, float offsetY, float offsetZ) {
+    public AbstractParticle offset(float offsetX, float offsetY, float offsetZ) {
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;
         return this;
     }
 
-    protected AbstractParticle modifyOffset(float modX, float modY, float modZ) {
+    public AbstractParticle modifyOffset(float modX, float modY, float modZ) {
         this.offsetX += modX;
         this.offsetY += modY;
         this.offsetZ += modZ;
         return this;
     }
 
-    protected Vector getTrueOffsets() {
+    public Vector getTrueOffsets() {
         return new Vector();
     }
 
@@ -65,11 +66,16 @@ public abstract class AbstractParticle {
         return fakeOffsets;
     }
 
-    public void display(Location location, List<CraftPlayer> players) {
+    public void display(Location location, List<Player> players) {
+
+        List<CraftPlayer> craftPlayers = players.stream()
+                .map(CraftPlayer.class::cast)
+                .toList();
+
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
         for (int i = 0; i < count; i++) {
-            for (CraftPlayer craftPlayer : players) {
+            for (CraftPlayer craftPlayer : craftPlayers) {
                 ServerPlayer player = craftPlayer.getHandle();
                 Vector fakeOffsets = generateFakeOffsets();
                 Vector trueOffsets = getTrueOffsets();
