@@ -1,8 +1,6 @@
 package me.buggyal.particles.particle;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -55,11 +53,22 @@ public abstract class AbstractParticle {
         return this;
     }
 
+    public AbstractParticle speed(float speed) {
+        this.speed = speed;
+        return this;
+    }
+
+    public AbstractParticle count(int count) {
+        this.count = count;
+        return this;
+    }
+
     public Vector getTrueOffsets() {
         return new Vector();
     }
 
     protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
+
     protected Vector generateFakeOffsets() {
         Vector fakeOffsets = new Vector();
         fakeOffsets.setX(rng.nextGaussian() * offsetX);
@@ -76,7 +85,11 @@ public abstract class AbstractParticle {
 
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
-        for (int i = 0; i < count; i++) {
+
+        int loopCount = count;
+        if (loopCount == 0) loopCount = 1;
+
+        for (int i = 0; i < loopCount; i++) {
             for (CraftPlayer craftPlayer : craftPlayers) {
                 ServerPlayer player = craftPlayer.getHandle();
                 Vector fakeOffsets = generateFakeOffsets();
