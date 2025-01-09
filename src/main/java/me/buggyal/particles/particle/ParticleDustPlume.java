@@ -1,8 +1,5 @@
 package me.buggyal.particles.particle;
 
-import net.minecraft.core.particles.DustParticleOptions;
-import org.bukkit.Color;
-
 public class ParticleDustPlume extends AbstractParticle {
 
     /**

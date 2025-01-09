@@ -1,7 +1,6 @@
 package me.buggyal.particles.particle;
 
 import net.minecraft.core.particles.DustColorTransitionOptions;
-import net.minecraft.core.particles.DustParticleOptions;
 import org.bukkit.Color;
 
 public class ParticleDustColorTransition extends AbstractParticle {
