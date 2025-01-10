@@ -1,5 +1,6 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.util.Distribution;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -12,18 +13,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractParticle {
 
     protected ParticleOptions particleOptions;
     protected boolean overrideParticleLimit = false;
     protected boolean alwaysShowParticle = true;
-    protected float offsetX = 0;
-    protected float offsetY = 0;
-    protected float offsetZ = 0;
+    protected Vector offsets = new Vector();
     protected float speed = 0;
     protected int count = 0;
+    protected boolean enhanceOffsets = true;
 
     protected AbstractParticle(String particleID) {
         this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID)).value();
@@ -40,16 +39,16 @@ public abstract class AbstractParticle {
     }
 
     public AbstractParticle offset(float offsetX, float offsetY, float offsetZ) {
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.offsetZ = offsetZ;
+        offsets.setX(offsetX);
+        offsets.setY(offsetY);
+        offsets.setZ(offsetZ);
         return this;
     }
 
     public AbstractParticle modifyOffset(float modX, float modY, float modZ) {
-        this.offsetX += modX;
-        this.offsetY += modY;
-        this.offsetZ += modZ;
+        offsets.setX(offsets.getX() + modX);
+        offsets.setY(offsets.getY() + modY);
+        offsets.setZ(offsets.getZ() + modZ);
         return this;
     }
 
@@ -63,17 +62,26 @@ public abstract class AbstractParticle {
         return this;
     }
 
+    public AbstractParticle enhanceOffsets(boolean enhanceOffsets) {
+        this.enhanceOffsets = enhanceOffsets;
+        return this;
+    }
+
     public Vector getTrueOffsets() {
         return new Vector();
     }
 
-    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
-
     protected Vector generateFakeOffsets() {
         Vector fakeOffsets = new Vector();
-        fakeOffsets.setX(rng.nextGaussian() * offsetX);
-        fakeOffsets.setY(rng.nextGaussian() * offsetY);
-        fakeOffsets.setZ(rng.nextGaussian() * offsetZ);
+        if (enhanceOffsets) {
+            fakeOffsets.setX(Distribution.boundedGaussian(offsets.getX()));
+            fakeOffsets.setY(Distribution.boundedGaussian(offsets.getY()));
+            fakeOffsets.setZ(Distribution.boundedGaussian(offsets.getY()));
+        } else {
+            fakeOffsets.setX(Distribution.gaussian(offsets.getX()));
+            fakeOffsets.setY(Distribution.gaussian(offsets.getY()));
+            fakeOffsets.setZ(Distribution.gaussian(offsets.getZ()));
+        }
         return fakeOffsets;
     }
 
