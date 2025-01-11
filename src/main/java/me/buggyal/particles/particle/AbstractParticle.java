@@ -1,6 +1,6 @@
 package me.buggyal.particles.particle;
 
-import me.buggyal.particles.util.Distribution;
+import me.buggyal.particles.misc.OffsetType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractParticle {
 
@@ -22,7 +23,7 @@ public abstract class AbstractParticle {
     protected Vector offsets = new Vector();
     protected float speed = 0;
     protected int count = 0;
-    protected boolean enhanceOffsets = true;
+    protected OffsetType offsetType = OffsetType.UNIFORM;
 
     protected AbstractParticle(String particleID) {
         this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID)).value();
@@ -62,8 +63,8 @@ public abstract class AbstractParticle {
         return this;
     }
 
-    public AbstractParticle enhanceOffsets(boolean enhanceOffsets) {
-        this.enhanceOffsets = enhanceOffsets;
+    public AbstractParticle offsetType(OffsetType offsetType) {
+        this.offsetType = offsetType;
         return this;
     }
 
@@ -71,16 +72,18 @@ public abstract class AbstractParticle {
         return new Vector();
     }
 
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
+
     protected Vector generateFakeOffsets() {
         Vector fakeOffsets = new Vector();
-        if (enhanceOffsets) {
-            fakeOffsets.setX(Distribution.boundedGaussian(offsets.getX()));
-            fakeOffsets.setY(Distribution.boundedGaussian(offsets.getY()));
-            fakeOffsets.setZ(Distribution.boundedGaussian(offsets.getY()));
+        if (offsetType == OffsetType.GAUSSIAN) {
+            fakeOffsets.setX((float) random.nextGaussian() * offsets.getX());
+            fakeOffsets.setY((float) random.nextGaussian() * offsets.getY());
+            fakeOffsets.setZ((float) random.nextGaussian() * offsets.getZ());
         } else {
-            fakeOffsets.setX(Distribution.gaussian(offsets.getX()));
-            fakeOffsets.setY(Distribution.gaussian(offsets.getY()));
-            fakeOffsets.setZ(Distribution.gaussian(offsets.getZ()));
+            fakeOffsets.setX((random.nextFloat() * 2 - 1) * offsets.getX());
+            fakeOffsets.setY((random.nextFloat() * 2 - 1) * offsets.getY());
+            fakeOffsets.setZ((random.nextFloat() * 2 - 1) * offsets.getZ());
         }
         return fakeOffsets;
     }
