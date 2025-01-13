@@ -82,9 +82,9 @@ public abstract class AbstractParticle {
                 fakeOffsets.setZ((float) Distribution.gaussian(offsets.getZ()));
             }
             case UNIFORM -> {
-                fakeOffsets.setX((float) Distribution.uniform(offsets.getX()) * 2 - offsets.getX());
-                fakeOffsets.setY((float) Distribution.uniform(offsets.getY()) * 2 - offsets.getY());
-                fakeOffsets.setZ((float) Distribution.uniform(offsets.getZ()) * 2 - offsets.getZ());
+                fakeOffsets.setX((float) Distribution.uniform(offsets.getX()));
+                fakeOffsets.setY((float) Distribution.uniform(offsets.getY()));
+                fakeOffsets.setZ((float) Distribution.uniform(offsets.getZ()));
             }
             default -> {
                 fakeOffsets.setX((float) Distribution.exponential(offsets.getX()));

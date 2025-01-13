@@ -11,7 +11,7 @@ public class Distribution {
     private static final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     public static double uniform(double bound) {
-        return rng.nextDouble(bound);
+        return rng.nextDouble(-bound, bound);
     }
 
     public static double gaussian(double bound) {
@@ -19,7 +19,8 @@ public class Distribution {
     }
 
     public static double exponential(double bound) {
-        return rng.nextDouble() * Math.E * bound;
+        double value = rng.nextDouble() * Math.E * bound;
+        return rng.nextBoolean() ? -value : value;
     }
 
 }
