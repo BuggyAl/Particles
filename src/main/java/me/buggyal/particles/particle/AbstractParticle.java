@@ -1,5 +1,6 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.misc.Distribution;
 import me.buggyal.particles.misc.OffsetType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractParticle {
 
@@ -23,7 +23,7 @@ public abstract class AbstractParticle {
     protected Vector offsets = new Vector();
     protected float speed = 0;
     protected int count = 0;
-    protected OffsetType offsetType = OffsetType.UNIFORM;
+    protected OffsetType offsetType = OffsetType.GAUSSIAN_TRUNCATED;
 
     protected AbstractParticle(String particleID) {
         this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID)).value();
@@ -72,18 +72,25 @@ public abstract class AbstractParticle {
         return new Vector();
     }
 
-    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
-
     protected Vector generateFakeOffsets() {
         Vector fakeOffsets = new Vector();
-        if (offsetType == OffsetType.GAUSSIAN) {
-            fakeOffsets.setX((float) random.nextGaussian() * offsets.getX());
-            fakeOffsets.setY((float) random.nextGaussian() * offsets.getY());
-            fakeOffsets.setZ((float) random.nextGaussian() * offsets.getZ());
-        } else {
-            fakeOffsets.setX((random.nextFloat() * 2 - 1) * offsets.getX());
-            fakeOffsets.setY((random.nextFloat() * 2 - 1) * offsets.getY());
-            fakeOffsets.setZ((random.nextFloat() * 2 - 1) * offsets.getZ());
+
+        switch (offsetType) {
+            case GAUSSIAN -> {
+                fakeOffsets.setX((float) Distribution.gaussian(offsets.getX()));
+                fakeOffsets.setY((float) Distribution.gaussian(offsets.getY()));
+                fakeOffsets.setZ((float) Distribution.gaussian(offsets.getZ()));
+            }
+            case UNIFORM -> {
+                fakeOffsets.setX((float) Distribution.uniform(offsets.getX()) * 2 - offsets.getX());
+                fakeOffsets.setY((float) Distribution.uniform(offsets.getY()) * 2 - offsets.getY());
+                fakeOffsets.setZ((float) Distribution.uniform(offsets.getZ()) * 2 - offsets.getZ());
+            }
+            default -> {
+                fakeOffsets.setX((float) Distribution.gaussianTruncated(offsets.getX()));
+                fakeOffsets.setY((float) Distribution.gaussianTruncated(offsets.getY()));
+                fakeOffsets.setZ((float) Distribution.gaussianTruncated(offsets.getZ()));
+            }
         }
         return fakeOffsets;
     }
