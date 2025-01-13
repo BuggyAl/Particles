@@ -23,7 +23,7 @@ public abstract class AbstractParticle {
     protected Vector offsets = new Vector();
     protected float speed = 0;
     protected int count = 0;
-    protected OffsetType offsetType = OffsetType.GAUSSIAN_TRUNCATED;
+    protected OffsetType offsetType = OffsetType.EXPONENTIAL;
 
     protected AbstractParticle(String particleID) {
         this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID)).value();
@@ -87,9 +87,9 @@ public abstract class AbstractParticle {
                 fakeOffsets.setZ((float) Distribution.uniform(offsets.getZ()) * 2 - offsets.getZ());
             }
             default -> {
-                fakeOffsets.setX((float) Distribution.gaussianTruncated(offsets.getX()));
-                fakeOffsets.setY((float) Distribution.gaussianTruncated(offsets.getY()));
-                fakeOffsets.setZ((float) Distribution.gaussianTruncated(offsets.getZ()));
+                fakeOffsets.setX((float) Distribution.exponential(offsets.getX()));
+                fakeOffsets.setY((float) Distribution.exponential(offsets.getY()));
+                fakeOffsets.setZ((float) Distribution.exponential(offsets.getZ()));
             }
         }
         return fakeOffsets;

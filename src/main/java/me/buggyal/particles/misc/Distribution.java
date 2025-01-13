@@ -18,10 +18,8 @@ public class Distribution {
         return rng.nextGaussian() * bound;
     }
 
-    public static double gaussianTruncated(double bound) {
-        double u1 = rng.nextDouble();
-        double u2 = rng.nextDouble();
-        return 2 * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2) * bound - bound;
+    public static double exponential(double bound) {
+        return rng.nextDouble() * Math.E * bound;
     }
 
 }
