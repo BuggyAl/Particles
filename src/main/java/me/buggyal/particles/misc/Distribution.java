@@ -19,7 +19,7 @@ public class Distribution {
     }
 
     public static double exponential(double bound) {
-        double value = rng.nextDouble() * Math.E * bound;
+        double value = Math.pow(rng.nextDouble(), Math.E) * bound;
         return rng.nextBoolean() ? -value : value;
     }
 
