@@ -47,7 +47,7 @@ By default, the library will spawn a single particle with default values. These 
 
 ```java
 public static void dislayCritParticle(Location loc) {
-    ParticleCrit particle = new ParticleCrit().offset(3, 0, 1).count(100);
+    ParticleCrit particle = new ParticleCrit().offset(3, 0, 3).count(100);
     List<Player> players = loc.getWorld().getPlayers();
     particle.display(loc, players);
 }
