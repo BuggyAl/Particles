@@ -43,7 +43,7 @@ public static void dislayCritParticle(Location loc) {
 }
 ```
 ### Particle Properties
-By default, the library will spawn a single particle with default values. These values can be changed by using methods provided by your particle instance. Some properties apply to all particles (count, offset, etc) while others add special functionality to a certain particle. The methods are applied directly to the particle instance and can be chained together. Using the previous particle example, here is how it can be modified to summon particles in a 3x3 area around the player's feet.
+By default, the library will spawn a single particle with default values. These values can be changed by using methods provided by your particle instance. Some properties apply to all particles (count, offset, etc) while others add special functionality to a certain particle. The methods are applied directly to the particle instance and can be chained together. Using the previous particle example, here is how it can be modified to summon particles in a 3x3 area around the origin.
 
 ```java
 public static void dislayCritParticle(Location loc) {
