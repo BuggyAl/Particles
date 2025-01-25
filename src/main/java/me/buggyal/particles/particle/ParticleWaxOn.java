@@ -1,5 +1,7 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+
 public class ParticleWaxOn extends AbstractParticle {
 
     /**

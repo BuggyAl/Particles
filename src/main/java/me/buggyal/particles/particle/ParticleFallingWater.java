@@ -1,5 +1,7 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+
 public class ParticleFallingWater extends AbstractParticle {
 
     /**

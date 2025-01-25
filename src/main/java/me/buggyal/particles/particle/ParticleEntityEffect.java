@@ -1,12 +1,14 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+import me.buggyal.particles.particle.struct.ColorableParticle;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import org.bukkit.Color;
 
-public class ParticleEntityEffect extends AbstractParticle {
+public class ParticleEntityEffect extends AbstractParticle implements ColorableParticle {
 
     // add "‎" invisible space to separate the images in the editor
 
@@ -23,12 +25,13 @@ public class ParticleEntityEffect extends AbstractParticle {
     public ParticleEntityEffect() {
         super("entity_effect");
         ParticleType<ColorParticleOption> option = (ParticleType<ColorParticleOption>) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", "entity_effect")).get().value();
-        particleOptions = ColorParticleOption.create(option, Color.BLACK.asRGB());
+        particleOptions = ColorParticleOption.create(option, Color.BLACK.asARGB());
     }
 
+    @Override
     public ParticleEntityEffect color(Color color) {
         ParticleType<ColorParticleOption> option = (ParticleType<ColorParticleOption>) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", "entity_effect")).get().value();
-        particleOptions = ColorParticleOption.create(option, color.asRGB());
+        particleOptions = ColorParticleOption.create(option, color.asARGB());
         return this;
     }
 

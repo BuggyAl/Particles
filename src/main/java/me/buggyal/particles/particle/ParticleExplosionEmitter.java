@@ -1,6 +1,11 @@
 package me.buggyal.particles.particle;
 
-public class ParticleExplosionEmitter extends AbstractParticle {
+import me.buggyal.particles.particle.struct.AbstractParticle;
+import me.buggyal.particles.particle.struct.SizeableParticle;
+
+public class ParticleExplosionEmitter extends AbstractParticle implements SizeableParticle {
+
+    private float size = 0;
 
     /**
      * <img src="https://minecraft.wiki/images/Explosion_%28texture_0%29_JE1.png" width="50" height="50">
@@ -23,6 +28,17 @@ public class ParticleExplosionEmitter extends AbstractParticle {
 
     public ParticleExplosionEmitter() {
         super("explosion_emitter");
+    }
+
+    @Override
+    public AbstractParticle size(float size) {
+        this.size = size;
+        return this;
+    }
+
+    @Override
+    public float getTrueSpeed() {
+        return size;
     }
 
 }

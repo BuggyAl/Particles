@@ -1,5 +1,7 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+
 public class ParticlePaleOakLeaves extends AbstractParticle {
 
     // add "‎" invisible space to separate the images in the editor

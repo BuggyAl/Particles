@@ -1,5 +1,6 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
 import org.bukkit.util.Vector;
 
 public class ParticleNote extends AbstractParticle {

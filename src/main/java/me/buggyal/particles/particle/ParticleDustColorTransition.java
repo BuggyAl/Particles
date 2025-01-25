@@ -1,13 +1,15 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+import me.buggyal.particles.particle.struct.SizeableParticle;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import org.bukkit.Color;
 
-public class ParticleDustColorTransition extends AbstractParticle {
+public class ParticleDustColorTransition extends AbstractParticle implements SizeableParticle {
 
     private Color fromColor = Color.fromRGB(0, 0, 0);
     private Color toColor = Color.fromRGB(255, 255, 255);
-    private float scale = 1;
+    private float size = 1;
 
     /**
      * <img src="https://minecraft.wiki/images/Smoke_%28texture_7%29_JE1_BE1.png" width="50" height="50">
@@ -21,29 +23,31 @@ public class ParticleDustColorTransition extends AbstractParticle {
      */
     public ParticleDustColorTransition() {
         super("dust_color_transition");
+        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), size);
     }
 
     public ParticleDustColorTransition colors(Color fromColor, Color toColor) {
         this.fromColor = fromColor;
         this.toColor = toColor;
-        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), scale);
+        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), size);
         return this;
     }
 
     public ParticleDustColorTransition fromColor(Color fromColor) {
         this.fromColor = fromColor;
-        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), scale);
+        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), size);
         return this;
     }
 
     public ParticleDustColorTransition toColor(Color toColor) {
         this.toColor = toColor;
-        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), scale);
+        particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), size);
         return this;
     }
 
-    public ParticleDustColorTransition scale(float scale) {
-        this.scale = scale;
+    @Override
+    public ParticleDustColorTransition size(float scale) {
+        this.size = scale;
         particleOptions = new DustColorTransitionOptions(fromColor.asRGB(), toColor.asRGB(), scale);
         return this;
     }

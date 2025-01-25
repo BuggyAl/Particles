@@ -1,5 +1,6 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
 import net.minecraft.core.particles.ShriekParticleOption;
 
 public class ParticleShriek extends AbstractParticle {

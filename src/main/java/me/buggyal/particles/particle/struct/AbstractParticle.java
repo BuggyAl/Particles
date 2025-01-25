@@ -1,4 +1,4 @@
-package me.buggyal.particles.particle;
+package me.buggyal.particles.particle.struct;
 
 import me.buggyal.particles.misc.Distribution;
 import me.buggyal.particles.misc.OffsetType;
@@ -72,6 +72,10 @@ public abstract class AbstractParticle {
         return new Vector();
     }
 
+    public float getTrueSpeed() {
+        return speed;
+    }
+
     protected Vector generateFakeOffsets() {
         Vector fakeOffsets = new Vector();
 
@@ -122,7 +126,7 @@ public abstract class AbstractParticle {
                         (float) trueOffsets.getX(),
                         (float) trueOffsets.getY(),
                         (float) trueOffsets.getZ(),
-                        speed,
+                        getTrueSpeed(),
                         0
                 ));
             }

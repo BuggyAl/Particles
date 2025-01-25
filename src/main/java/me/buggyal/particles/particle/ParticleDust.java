@@ -1,12 +1,15 @@
 package me.buggyal.particles.particle;
 
+import me.buggyal.particles.particle.struct.AbstractParticle;
+import me.buggyal.particles.particle.struct.ColorableParticle;
+import me.buggyal.particles.particle.struct.SizeableParticle;
 import net.minecraft.core.particles.DustParticleOptions;
 import org.bukkit.Color;
 
-public class ParticleDust extends AbstractParticle {
+public class ParticleDust extends AbstractParticle implements ColorableParticle, SizeableParticle {
 
     private Color color = Color.fromRGB(0, 0, 0);
-    private float scale = 1;
+    private float size = 1;
 
     /**
      * <img src="https://minecraft.wiki/images/Smoke_%28texture_7%29_JE1_BE1.png" width="50" height="50">
@@ -20,16 +23,19 @@ public class ParticleDust extends AbstractParticle {
      */
     public ParticleDust() {
         super("dust");
+        particleOptions = new DustParticleOptions(color.asRGB(), size);
     }
 
+    @Override
     public ParticleDust color(Color color) {
         this.color = color;
-        particleOptions = new DustParticleOptions(color.asRGB(), scale);
+        particleOptions = new DustParticleOptions(color.asRGB(), size);
         return this;
     }
 
-    public ParticleDust scale(float scale) {
-        this.scale = scale;
+    @Override
+    public ParticleDust size(float scale) {
+        this.size = scale;
         particleOptions = new DustParticleOptions(color.asRGB(), scale);
         return this;
     }
