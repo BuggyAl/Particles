@@ -3,9 +3,7 @@ package me.buggyal.particles.particle.struct;
 import me.buggyal.particles.misc.Distribution;
 import me.buggyal.particles.misc.OffsetType;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
@@ -24,10 +22,6 @@ public abstract class AbstractParticle {
     protected float speed = 0;
     protected int count = 0;
     protected OffsetType offsetType = OffsetType.EXPONENTIAL;
-
-    protected AbstractParticle(String particleID) {
-        this.particleOptions = (ParticleOptions) BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.fromNamespaceAndPath("minecraft", particleID)).orElseThrow(() -> new IllegalArgumentException("Invalid particle ID: " + particleID)).value();
-    }
 
     public AbstractParticle overrideParticleLimit(boolean overrideParticleLimit) {
         this.overrideParticleLimit = overrideParticleLimit;

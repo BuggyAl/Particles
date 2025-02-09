@@ -20,6 +20,7 @@ public class Distribution {
 
     // don't ask why i'm using this, if any PhD in math sees this, please actually make it resemble standard distribution :)
     private static final double GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
+
     public static double exponential(double bound) {
         double value = Math.pow(rng.nextDouble(), GOLDEN_RATIO) * bound;
         return rng.nextBoolean() ? -value : value;

@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Particles {
 
     private static Plugin plugin = null;
-    private static ThreadLocalRandom random = ThreadLocalRandom.current();
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     private Particles() {
         throw new IllegalStateException("Utility class");
