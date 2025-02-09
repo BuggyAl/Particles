@@ -53,6 +53,8 @@ public abstract class AbstractShape {
                     defaultPlayers = true;
                     players = new ArrayList<>(Particles.getPlugin().getServer().getOnlinePlayers());
                 }
+                // add second check in case the particle is set to null mid-display
+                if (particle == null) throw new IllegalStateException("Particle must be set before displaying!");
                 tick();
                 if (defaultPlayers) players = null;
                 if (--ticksLeft <= 0) {
