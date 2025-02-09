@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public abstract class AbstractShape {
     protected int delayTicks = 0;
     protected int periodTicks = 1;
 
-    protected List<Player> players = new ArrayList<>();
+    protected List<Player> players = null;
 
     protected ShapeDistribution distribution = ShapeDistribution.COUNT;
     protected double distributionValue = 100;
@@ -46,7 +48,13 @@ public abstract class AbstractShape {
 
             @Override
             public void run() {
+                boolean defaultPlayers = false;
+                if (players == null) {
+                    defaultPlayers = true;
+                    players = new ArrayList<>(Particles.getPlugin().getServer().getOnlinePlayers());
+                }
                 tick();
+                if (defaultPlayers) players = null;
                 if (--ticksLeft <= 0) {
                     cancel();
                     runnable = null;
@@ -102,19 +110,26 @@ public abstract class AbstractShape {
         return this;
     }
 
-    public AbstractShape players(List<Player> players) {
+    public AbstractShape players(@Nullable List<Player> players) {
         this.players = players;
         return this;
     }
 
-    public AbstractShape addPlayer(Player player) {
+    public AbstractShape addPlayer(@NotNull Player player) {
+        if (players == null) players = new ArrayList<>();
         players.add(player);
         return this;
     }
 
-    public AbstractShape removePlayer(Player player) {
+    public AbstractShape removePlayer(@NotNull Player player) {
+        if (players == null) return this;
         players.remove(player);
         return this;
+    }
+
+    @Nullable
+    public List<Player> getPlayers() {
+        return players;
     }
 
     /**
