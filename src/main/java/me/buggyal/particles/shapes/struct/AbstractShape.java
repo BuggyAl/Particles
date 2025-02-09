@@ -40,6 +40,7 @@ public abstract class AbstractShape {
         if (runnable != null) return this;
         if (Particles.getPlugin() == null)
             throw new IllegalStateException("Particles is not linked to a plugin! Please execute Particles.setPlugin(this) in your onEnable() method!");
+        if (particle == null) throw new IllegalStateException("Particle must be set before displaying!");
         BukkitRunnable runnableTask = new BukkitRunnable() {
             int ticksLeft = ticks;
 
