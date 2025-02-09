@@ -66,12 +66,12 @@ public abstract class AbstractShape {
 
     public abstract void tick();
 
-    public AbstractShape delayTicks(int delayTicks) {
+    public AbstractShape delay(int delayTicks) {
         this.delayTicks = delayTicks;
         return this;
     }
 
-    public AbstractShape periodTicks(int periodTicks) {
+    public AbstractShape period(int periodTicks) {
         this.periodTicks = periodTicks;
         return this;
     }
