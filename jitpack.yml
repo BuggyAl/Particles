@@ -1,6 +1,0 @@
-before_install:
-  - mvn wrapper:wrapper -Dmaven=3.9.9
-  - mvn paper-nms:init
-
-build:
-  - mvn clean package
