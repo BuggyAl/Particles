@@ -9,13 +9,12 @@ This library is provided through JitPack. To use it, add the following repositor
   <repository> 
     <id>jitpack.io</id> 
     <url>https://jitpack.io</url> 
-  </repository>'
+  </repository>
 </repositories>  
   
-<!-- Not sure why JitPack builds 2 modules, will try to fix in the future... -->  
 <dependencies>  
   <dependency> 
-    <groupId>com.github.BuggyAl.Particles</groupId> 
+    <groupId>com.github.BuggyAl</groupId> 
     <artifactId>Particles</artifactId> 
     <version>Tag</version> 
   </dependency>
