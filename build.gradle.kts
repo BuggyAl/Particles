@@ -22,3 +22,14 @@ java {
     withSourcesJar()
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = "Particles"
+            version = project.version.toString()
+        }
+    }
+}
